@@ -15,7 +15,8 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Print dir
-    - run: | ls
+    - run: |
+        ls
 
     - name: Upload server application
       uses: actions/upload-artifact@v4
