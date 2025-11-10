@@ -23,10 +23,10 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: server
-        path: x64/Release/server.exe
+        path: executables/server
 
     - name: Upload client application
       uses: actions/upload-artifact@v4
       with:
         name: client
-        path: x64/Release/client.exe
+        path: executables/client
