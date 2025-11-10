@@ -5,21 +5,20 @@
 #include "../networking_library/utils.h"
 #include "logger.h"
 #include "clientInstance.h"
-#include "iostream"
 
 int main()
 {
-    std::cout << "hhhi" << std::endl;
-    
     log(std::string("Server"));
 
     int idSocket = socket(AF_INET, SOCK_STREAM, 0);
+    log(std::string("Socket created"));
 
     sockaddr_in serverAddr{};
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = htonl(addrIP);
     serverAddr.sin_port = htons(port);
     bind(idSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
+    log(std::string("Socket binded"));
 
     listen(idSocket, SOMAXCONN);
 
@@ -31,6 +30,7 @@ int main()
     for (;;)
     {
         int conn = accept(idSocket, nullptr, nullptr);
+        log(std::string("Client accepted"));
         std::thread t(serveClient, conn, idClient);
         idClient++;
         t.detach();
