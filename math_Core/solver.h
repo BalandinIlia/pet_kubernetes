@@ -14,5 +14,5 @@
 /// coefficients of its ternary representation.
 /// </summary>
 /// <param name="n"> The number </param>
-/// <returns> the answer </returns>
+/// <returns> the answer </returns> 
 std::vector<number> solve(number n);

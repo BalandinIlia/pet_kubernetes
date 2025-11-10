@@ -11,7 +11,7 @@ CMathCoreHost::CMathCoreHost() {}
 CMathCoreHost& CMathCoreHost::one()
 {
 	LG lk(m_mutCreate);
-	if (pOne.get() == nullptr)
+	if (pOne.get() == nullptr) 
 	{
 		pOne = std::move(std::unique_ptr<CMathCoreHost>(new CMathCoreHost));
 	}

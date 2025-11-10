@@ -12,7 +12,7 @@
 class CMathCoreHost
 {
 private:
-	CMathCoreHost();
+	CMathCoreHost(); 
 
 	// the only instance of the host
 	static std::unique_ptr<CMathCoreHost> pOne;
