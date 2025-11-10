@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Print dir
+    - name: Build
       run: |
         chmod +x build.sh
         ./build.sh
