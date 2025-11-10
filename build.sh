@@ -22,3 +22,13 @@ cd server
 chmod ++x build.sh
 ./build.sh
 cd ..
+
+echo "Printing directory contents after build"
+cd libraries
+echo "Libraries"
+ls
+cd ..
+cd executables
+echo "Executables"
+ls
+cd ..
