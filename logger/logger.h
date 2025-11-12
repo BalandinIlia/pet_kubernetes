@@ -6,7 +6,7 @@
 // different threads concurrently
 
 // Logs a message
-void log(const std::string& s);
+void log(const std::string& s, bool bError = false);
 
 // Sets name for the current thread
-void setThreadName(const std::string& name, bool bError = false);
+void setThreadName(const std::string& name);

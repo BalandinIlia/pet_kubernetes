@@ -65,14 +65,14 @@ void log(const std::string& log, bool bError)
 
     // mes = "message"
     std::ostringstream mes;
-    if(bError)
-        mes << "ERROR ";
     mes << infoThr.first;
     mes << " ";
     mes << "thread number";
     mes << " ";
     mes << infoThr.second;
     mes << ": ";
+    if(bError)
+        mes << "ERROR ";
     mes << log;
 
     LG lk(mutCons);

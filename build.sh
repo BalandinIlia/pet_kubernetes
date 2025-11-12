@@ -8,6 +8,11 @@ chmod ++x build.sh
 ./build.sh
 cd ..
 
+cd networking_utils
+chmod ++x build.sh
+./build.sh
+cd ..
+
 cd networking_library
 chmod ++x build.sh
 ./build.sh
