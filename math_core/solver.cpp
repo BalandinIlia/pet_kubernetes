@@ -1,5 +1,8 @@
 #include "unistd.h"
-#include "pch.h"
+#include "vector"
+#include "map"
+#include "mutex"
+#include "array"
 #include "../parameters/controls.h"
 #include "solver.h"
 
