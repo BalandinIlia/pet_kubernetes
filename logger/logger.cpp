@@ -3,6 +3,7 @@
 #include "mutex"
 #include "iostream"
 #include "sstream"
+#include "thread"
 #include "logger.h"
 
 class CThreadInfo
