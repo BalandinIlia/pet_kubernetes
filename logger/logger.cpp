@@ -1,6 +1,8 @@
 #include "map"
 #include "shared_mutex"
+#include "mutex"
 #include "iostream"
+#include "sstream"
 #include "logger.h"
 
 class CThreadInfo
@@ -29,7 +31,7 @@ public:
         std::shared_lock l(m_mut);
         
         const std::thread::id idThread = std::this_thread::get_id();
-        if(m_map.contains(idThread))
+        if(m_map.find(idThread) != m_map.end())
             return m_map[idThread];
         else
             return std::pair<std::string, int>("no_name", -1);
@@ -56,7 +58,7 @@ void log(const std::string& log)
     mes << ": ";
     mes << log;
 
-    LG(mutCons);
+    LG lk(mutCons);
     std::cout << mes.str() << std::endl;
 }
 

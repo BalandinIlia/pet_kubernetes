@@ -10,7 +10,7 @@ typedef unsigned long long number;
 // LG = "Lock Guard"
 typedef std::lock_guard<std::mutex> LG;
 // SOCKET type
-typedef int SOCKET
+typedef int SOCKET;
 
 // server ip address
 extern const IPAddr addrIP;
