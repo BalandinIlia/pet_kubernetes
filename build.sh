@@ -1,3 +1,8 @@
+cd logger
+chmod ++x build.sh
+./build.sh
+cd ..
+
 cd math_core
 chmod ++x build.sh
 ./build.sh
@@ -13,6 +18,11 @@ chmod ++x build.sh
 ./build.sh
 cd ..
 
+echo "Created libraries:"
+cd libraries
+ls
+cd ..
+
 cd client
 chmod ++x build.sh
 ./build.sh
@@ -23,12 +33,7 @@ chmod ++x build.sh
 ./build.sh
 cd ..
 
-echo "Printing directory contents after build"
-cd libraries
-echo "Libraries"
-ls
-cd ..
+echo "Created Executables"
 cd executables
-echo "Executables"
 ls
 cd ..
