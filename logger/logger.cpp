@@ -21,7 +21,7 @@ public:
         std::unique_lock lk(m_mut);
 
         // How many threads with the same name are already registered?
-        int quant = 0;                    
+        int quant = 0;
         for(auto& iter: m_map)
         {
             const std::string& curName = iter.second.first;
