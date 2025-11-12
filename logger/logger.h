@@ -9,4 +9,4 @@
 void log(const std::string& s);
 
 // Sets name for the current thread
-void setThreadName(const std::string& name);
+void setThreadName(const std::string& name, bool bError = false);

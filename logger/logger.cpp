@@ -59,12 +59,14 @@ private:
 static std::mutex mutCons;
 
 // log a message
-void log(const std::string& log)
+void log(const std::string& log, bool bError)
 {
     const std::pair<std::string, int> infoThr = CThreadInfo::threadInfo();
 
     // mes = "message"
     std::ostringstream mes;
+    if(bError)
+        mes << "ERROR ";
     mes << infoThr.first;
     mes << " ";
     mes << "thread number";
