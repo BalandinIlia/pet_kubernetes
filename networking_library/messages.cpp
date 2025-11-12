@@ -16,6 +16,7 @@ namespace MS
 		case ETypeMes::eAnsYes: return 'c';
 		case ETypeMes::eError: return 0;
 		}
+		return 0;
 	}
 
 	ETypeMes decodeType(char c)
