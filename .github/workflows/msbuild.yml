@@ -19,6 +19,15 @@ jobs:
         chmod +x build.sh
         ./build.sh
 
+    - name: Go to docker dir
+      run: |
+        cd docker
+
+    - name: Build docker
+      run: |
+        docker build . --platform linux/amd64 -t odin:dva
+        ls
+
     - name: Upload server application
       uses: actions/upload-artifact@v4
       with:
