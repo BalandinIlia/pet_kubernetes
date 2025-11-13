@@ -13,7 +13,7 @@ typedef std::lock_guard<std::mutex> LG;
 typedef int SOCKET;
 
 // server ip address
-extern const IPAddr addrIP;
+const IPAddr addrIP;
 // server TCP port
 extern const TCPPort port;
 
