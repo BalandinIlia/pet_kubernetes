@@ -4,7 +4,7 @@ WORKDIR /wd
 
 RUN apt update
 
-COPY ../executables/server /app/exec 
+COPY server /app/exec 
 
 RUN chmod +x /app/exec
 
