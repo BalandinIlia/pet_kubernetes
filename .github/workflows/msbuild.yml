@@ -26,6 +26,7 @@ jobs:
 
     - name: Build docker
       run: |
+        ls
         docker build -f network --platform linux/amd64 -t odin:dva .
         ls
 
