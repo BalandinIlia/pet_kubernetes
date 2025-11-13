@@ -19,13 +19,9 @@ jobs:
         chmod +x build.sh
         ./build.sh
 
-    - name: Go to docker dir
-      run: |
-        cd docker
-        ls
-
     - name: Build docker
       run: |
+        cd docker
         ls
         docker build -f network --platform linux/amd64 -t odin:dva .
         ls
