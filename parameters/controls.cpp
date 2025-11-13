@@ -4,7 +4,7 @@
 #include "controls.h"
 
 static_assert(sizeof(IPAddr) == 4, "wrong type for IP address");
-const IPAddr addrIP = INADDR_LOOPBACK;
+const IPAddr addrIP = INADDR_ANY;
 
 static_assert(sizeof(TCPPort) == 2, "wrong type for TCP port");
 const TCPPort port = 40000;
