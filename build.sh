@@ -41,5 +41,5 @@ cd ..
 echo "Created Executables"
 cd executables
 ls
+mv server /docker
 cd ..
-mv /executables/server /docker
