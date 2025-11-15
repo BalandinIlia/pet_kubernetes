@@ -45,6 +45,8 @@ void CInteractKuberentes::terminateLive()
 void CInteractKuberentes::informLive()
 {
     setThreadName("kubernetes liveliness");
+    const SOCKET id = listenPort(portLive);
+    log("listening socket created");
     for(;;)
     {
         bool bCon = false;
@@ -55,10 +57,9 @@ void CInteractKuberentes::informLive()
         }
         if(bCon)
         {
-            const SOCKET id = listenPort(portLive);
-            log("starting listening to liveness port");
+            log("waiting for incoming connection");
             accept(id, nullptr, nullptr);
-            log("Liveliness confirmed to Kubernetes");
+            log("received incoming connection");
         }
         else
             break;
