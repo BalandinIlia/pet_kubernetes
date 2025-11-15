@@ -12,6 +12,8 @@ int main()
     setThreadName("Main thread");
     log(std::string("Starting networking container"));
 
+    CInteractKuberentes::start();
+
     const SOCKET idSocket = listenInfo();
     log(std::string("Main socket created"));
 
