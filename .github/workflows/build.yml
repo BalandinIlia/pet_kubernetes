@@ -22,7 +22,7 @@ jobs:
     - name: Build docker
       run: |
         cd docker
-        docker build -f network --platform linux/amd64 -t odin:dva .
+        docker build -f network --platform linux/amd64 -t image:current .
         docker images
 
     - name: Login to Container Registry
@@ -33,8 +33,8 @@ jobs:
 
     - name: Tag image
       run: | 
-          docker tag odin:dva ilia56/odin:dva
+          docker tag image:current ilia56/network_image:latest
   
     - name: Push image to docker hub Container Registry
       run: | 
-          docker push ilia56/odin:dva
+          docker push ilia56/network_image:latest
