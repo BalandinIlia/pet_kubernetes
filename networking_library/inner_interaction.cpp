@@ -16,7 +16,7 @@ std::vector<number> askInner(SOCKET id, number num)
     std::vector<number> ans;
     for(;;)
     {
-        receiveNum(id, cur);
+        recvNum(id, cur);
         if(cur == 0)
             break;
         else
@@ -35,6 +35,6 @@ void answerInner(SOCKET id, std::vector<number> ans)
 number getReqInner(SOCKET id)
 {
     number ans = 0;
-    receiveNum(id, ans);
+    recvNum(id, ans);
     return ans;
 }

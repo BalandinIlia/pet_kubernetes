@@ -19,4 +19,4 @@ bool recvAll(SOCKET id, char* buf, int len);
 bool sendAll(SOCKET id, char* buf, int len);
 
 bool sendNum(SOCKET id, number num);
-bool recvNumber(SOCKET id, number& num);
+bool recvNum(SOCKET id, number& num);

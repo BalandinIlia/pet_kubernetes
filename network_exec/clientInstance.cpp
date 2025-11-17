@@ -4,6 +4,7 @@
 #include "../logger/logger.h"
 #include "clientInstance.h"
 #include "../networking_library/messages.h"
+#include "../networking_library/inner_interaction.h"
 #include "../networking_utils/send_receive.h"
 #include "../networking_utils/make_socket.h"
 #include "../math_core/host.h"
@@ -31,13 +32,13 @@ void solveCase(short id, number num, int idSocket, std::mutex* mutSocket, int id
 	if (aNum.empty())
 	{
 		std::array<char, 3> buf = MS::serializeAnsNo(id);
-		LG lk(mutSocket);
+		LG lk(*mutSocket);
 		bSent = sendAll(idSocket, buf.data(), 3);
 	}
 	else
 	{
 		std::vector<char> buf = MS::serializeAnsYes(aNum, id);
-		LG lk(mutSocket);
+		LG lk(*mutSocket);
 		bSent = sendAll(idSocket, buf.data(), static_cast<int>(buf.size()));
 	}
 

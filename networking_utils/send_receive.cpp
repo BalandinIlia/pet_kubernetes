@@ -42,7 +42,7 @@ bool sendNum(SOCKET id, number num)
     return sendAll(id, p, 8);
 }
 
-bool recvNumber(SOCKET id, number& num)
+bool recvNum(SOCKET id, number& num)
 {
     char* p = reinterpret_cast<char*>(&num);
     const bool bSuc = sendAll(id, p, 8);
