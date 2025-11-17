@@ -13,13 +13,13 @@
 static std::map<number, std::vector<number>> cache;
 static std::shared_mutex mutCache;
 
-std::vector<number> askCalc(number num)
+static std::vector<number> askCalc(number num)
 {
     std::vector<number> ans;
     return ans;
 }
 
-void solveReq(SOCKET id)
+static void solveReq(SOCKET id)
 {
     const number reqNum = getReqInner(id);
     
@@ -62,7 +62,7 @@ int main()
     {
         SOCKET conn = accept(idSocket, nullptr, nullptr);
         log(std::string("New request received"));
-        std::thread t(serveReq, conn);
+        std::thread t(solveReq, conn);
         t.detach();
     }
 
