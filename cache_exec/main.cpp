@@ -9,7 +9,6 @@
 #include "../networking_utils/send_receive.h"
 #include "../networking_utils/make_socket.h"
 #include "../logger/logger.h"
-#include "clientInstance.h"
 
 static std::map<number, std::vector<number>> cache;
 static std::shared_mutex mutCache;
