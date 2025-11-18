@@ -7,7 +7,6 @@
 #include "../networking_library/inner_interaction.h"
 #include "../networking_utils/send_receive.h"
 #include "../networking_utils/make_socket.h"
-#include "../math_core/host.h"
 
 /// <summary>
 /// This function solves a request from a particular client: it calculates the answer and sends it over TCP.
