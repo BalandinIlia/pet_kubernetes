@@ -33,34 +33,34 @@ void CInteractKuberentes::start()
 {
     std::thread t(informLive);
     t.detach();
-    log("Kubernetes interaction started");
+    LOG("Kubernetes interaction started");
 }
 
 void CInteractKuberentes::terminateLive()
 {
     LG lk(m_mutLive);
     m_live = false;
-    log("Kubernetes liveliness signal terminated");
+    LOG("Kubernetes liveliness signal terminated");
 }
 
 void CInteractKuberentes::informLive()
 {
     setThreadName("kubernetes liveliness");
     const SOCKET id = listenPort(portLive);
-    log("listening socket created");
+    LOG("listening socket created");
     for(;;)
     {
         bool bCon = false;
         {
             LG lk(m_mutLive);
             bCon = m_live;
-            log("m_live flag read");
+            LOG("m_live flag read");
         }
         if(bCon)
         {
-            log("waiting for incoming connection");
+            LOG("waiting for incoming connection");
             accept(id, nullptr, nullptr);
-            log("received incoming connection");
+            LOG("received incoming connection");
         }
         else
             break;
@@ -72,12 +72,12 @@ std::mutex CInteractKuberentes::m_mutLive;
 
 SOCKET connectToService()
 {
-    log("connectToService function started");
+    LOG("connectToService function started");
     
     const std::string nameDNS(std::getenv("SERVICE"));
-    log("DNS address", nameDNS);
+    LOG("DNS address", nameDNS);
     const std::string port(std::getenv("SERVICE_PORT"));
-    log("Port", port);
+    LOG("Port", port);
  
     addrinfo constrain{};
     constrain.ai_family = AF_INET;
@@ -85,19 +85,19 @@ SOCKET connectToService()
     addrinfo* pRes = nullptr;
     const int resDNS = getaddrinfo(nameDNS.c_str(), port.c_str(), &constrain, &pRes);
     if(resDNS != 0)
-        log("getaddrinfo returned", resDNS, true);
+        LOG("getaddrinfo returned", resDNS, true);
     if(pRes == nullptr)
-        log("Failed to resolve DNS", true);
+        LOG("Failed to resolve DNS", true);
 
     const addrinfo& res = *pRes;
     if(res.ai_next != nullptr)
-        log("More than 1 resolution", true);
+        LOG("More than 1 resolution", true);
 
     const SOCKET idSocket = socket(AF_INET, SOCK_STREAM, 0);
     const int resCon = connect(idSocket, res.ai_addr, res.ai_addrlen);
     if(resCon != 0)
-        log("connect returned ", resCon, true);
+        LOG("connect returned ", resCon, true);
 
-    log("connectToService function finished");
+    LOG("connectToService function finished");
     return idSocket;
 }

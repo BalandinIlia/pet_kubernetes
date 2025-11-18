@@ -61,19 +61,35 @@ std::shared_mutex CThreadInfo::m_mut;
 // Mutex protecting the console (logs are outputted to the console)
 static std::mutex mutCons;
 
-static void logImpl(const std::string& log)
+static void logImpl(const char* fn, const std::string& log, bool bError)
 {
     const std::pair<std::string, int> infoThr = CThreadInfo::threadInfo();
 
     // mes = "message"
     std::ostringstream mes;
+    
+    if(bError)
+        mes << "ERROR";
+    else
+        mes << "INFO";
+    mes << "\n";
+
+    mes << "      ";
+    mes << "Thread: ";
     mes << infoThr.first;
     mes << " ";
-    mes << "thread number";
-    mes << " ";
     mes << infoThr.second;
-    mes << ": ";
-    mes << log;
+    mes << "\n";
+
+    mes << "      ";
+    mes << "Function: ";
+    mes << fn;
+    mes << "\n";
+
+    mes << "      ";
+    mes << "Message: ";
+    mes << fn;
+    mes << "\n";
 
     std::string out = mes.str();
     LG lk(mutCons);
@@ -81,50 +97,55 @@ static void logImpl(const std::string& log)
 }
 
 // log a message
-void log(const std::string& log, bool bError)
+void log(const char* fn, const std::string& log, bool bError)
 {
     // mes = "message"
     std::ostringstream mes;
-    if(bError)
-        mes << "ERROR ";
     mes << log;
-    logImpl(mes.str());
+    logImpl(fn, mes.str(), bError);
 }
 
-void log(const std::string& s1, const std::string& s2, bool bError)
+void log(const char* fn, const std::string& s1, const std::string& s2, bool bError)
 {
     // mes = "message"
     std::ostringstream mes;
-    if(bError)
-        mes << "ERROR ";
     mes << s1;
     mes << " ";
     mes << s2;
-    logImpl(mes.str());
+    logImpl(fn, mes.str(), bError);
 }
 
-void log(const std::string& s, int v, bool bError)
+void log(const char* fn, const std::string& s, int v, bool bError)
 {
     // mes = "message"
     std::ostringstream mes;
-    if(bError)
-        mes << "ERROR ";
     mes << s;
     mes << " ";
     mes << v;
-    logImpl(mes.str());
+    logImpl(fn, mes.str(), bError);
 }
 
-void log(const std::string& s1, number n, bool bError)
+void log(const char* fn, const std::string& s1, number n, bool bError)
 {
     // mes = "message"
     std::ostringstream mes;
-    if(bError)
-        mes << "ERROR ";
     mes << s1;
     mes << " ";
     mes << n;
-    logImpl(mes.str());
+    logImpl(fn, mes.str(), bError);
+}
+
+void log(const char* fn, const std::string& s1, const std::vector<number>& v, bool bError)
+{
+    // mes = "message"
+    std::ostringstream mes;
+    mes << s1;
+    for(number i: v)
+    {
+        mes << " ";
+        mes << i;
+    }
+    logImpl(fn, mes.str(), bError);
 }
 
 void setThreadName(const std::string& name)

@@ -20,10 +20,10 @@
 void solveCase(short id, number num, int idSocket, std::mutex* mutSocket, int idClient)
 {
 	setThreadName("Case thread");
-	log("Starting solving a case for number", num);
+	LOG("Starting solving a case for number", num);
 
 	const SOCKET idSocketService = connectToService();
-	log("Service socket id", idSocketService);
+	LOG("Service socket id", idSocketService);
 
 	std::vector<number> aNum = askInner(idSocketService, num);
 
@@ -46,7 +46,7 @@ void solveCase(short id, number num, int idSocket, std::mutex* mutSocket, int id
 	{
 		std::ostringstream mes;
 		mes << "Unable to sent an answer to client " << idClient << " for request with id " << id << " due to network error";
-		log(mes.str(), true);
+		LOG(mes.str(), true);
 	}
 }
 
@@ -72,12 +72,12 @@ public:
 			if (!recvAll(m_idSocket, &c, 1))
 			{
 				// log connection error and stop execution
-				log("Session closed due to network error", true);
+				LOG("Session closed due to network error", true);
 				break;
 			}
 			if (MS::decodeType(c) != MS::ETypeMes::eReq)
 			{
-				log("Client sent a message with incorrect code", true);
+				LOG("Client sent a message with incorrect code", true);
 				break;
 			}
 			else
@@ -85,7 +85,7 @@ public:
 				std::array<char, 10> buf;
 				if(!recvAll(m_idSocket, buf.data(), 10))
 				{
-					log("Client sent a broken message", true);
+					LOG("Client sent a broken message", true);
 					break;
 				}
 
@@ -93,7 +93,7 @@ public:
 				
 				std::ostringstream mes;
 				mes << "Client sent a request with id " << req.first << " and number " << req.second;
-				log(mes.str());
+				LOG(mes.str());
 
 				// Each request is processed in a separate thread. This allows processing several requests from the same
 				// client simultaneously.
@@ -121,10 +121,10 @@ private:
 void serveClient(int idSocket, int idClient)
 {
 	setThreadName("Client thread");
-	log("Starting serving a client");
+	LOG("Starting serving a client");
 
 	CThreadClient thr(idSocket, idClient);
 	thr.run();
-	log("Finished serving a client, closing socket");
+	LOG("Finished serving a client, closing socket");
 	close(idSocket);
 }

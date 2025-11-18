@@ -10,7 +10,7 @@
 
 std::vector<number> askInner(SOCKET id, number num)
 {
-    log("Starting function askInner");
+    LOG("Starting function askInner");
     sendNum(id, num);
     number cur = 0;
     std::vector<number> ans;
