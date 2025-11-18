@@ -8,7 +8,7 @@ COPY cache_exec /wd/cache_exec
 
 RUN chmod +x /wd/cache_exec
 
-EXPOSE 40000
-EXPOSE 40001
+EXPOSE 31000
+EXPOSE 31001
 
 ENTRYPOINT ["/wd/cache_exec"]

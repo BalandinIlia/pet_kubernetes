@@ -42,9 +42,29 @@ spec:
           image: ilia56/cache_image:latest
           env:
             - name: SERVICE
-              value: "to_be_developed"
+              value: "calc-service.default.svc.cluster.local"
             - name: SERVICE_PORT
-              value: "to_be_developed"
+              value: "31000"
+          ports:
+            - containerPort: 31000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calc-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: calc-pod
+  template:
+    metadata:
+      labels:
+        type: calc-pod
+    spec:
+      containers:
+        - name: calc-container
+          image: ilia56/calc_image:latest
           ports:
             - containerPort: 31000
 ---
@@ -74,3 +94,16 @@ spec:
       targetPort: 31000
       nodePort: 31000
   type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calc-service
+spec:
+  selector:
+    type: calc-pod
+  ports:
+    - protocol: TCP
+      port: 31000
+      targetPort: 31000
+  type: ClusterIP
