@@ -88,7 +88,7 @@ static void logImpl(const char* fn, const std::string& log, bool bError)
 
     mes << "      ";
     mes << "Message: ";
-    mes << fn;
+    mes << log;
     mes << "\n";
 
     std::string out = mes.str();
