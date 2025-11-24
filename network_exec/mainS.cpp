@@ -5,6 +5,7 @@
 #include "../networking_utils/send_receive.h"
 #include "../networking_utils/make_socket.h"
 #include "../logger/logger.h"
+#include "unistd.h"
 #include "clientInstance.h"
 
 int main()
@@ -14,8 +15,17 @@ int main()
 
     CInteractKuberentes::start();
 
-    const SOCKET idSocket = listenInfo();
-    LOG1(std::string("Main socket created"));
+    const std::optional<SOCKET> idSocket = listenInfo();
+    if(idSocket.has_value())
+        LOG1("Main socket created")
+    else
+    {
+        LOG2("Failed to create main socket", true)
+        // sleep for an hour to keep the pos alive; This enables the operator to see the error:
+        // logs are removed when the pod crashes
+        sleep(3600);
+        throw std::exception("Failed to create main socket");
+    }
 
     // client identificator
     // Receive a connection from a client and serve the client in a separate thread. 

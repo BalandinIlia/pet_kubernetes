@@ -59,8 +59,13 @@ void CInteractKuberentes::terminateLive()
 void CInteractKuberentes::informLive()
 {
     setThreadName("kubernetes liveliness");
-    const SOCKET id = listenPort(portLive);
-    LOG1("listening socket created")
+    
+    const std::optional<SOCKET> id = listenPort(portLive);
+    if(id.has_value())
+        LOG1("listening socket created")
+    else
+        LOG2("Failed to create listening socket", true)
+    
     for(;;)
     {
         bool bCon = false;
