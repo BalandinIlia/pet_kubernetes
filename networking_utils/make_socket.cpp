@@ -77,7 +77,7 @@ void CInteractKuberentes::informLive()
         if(bCon)
         {
             LOG1("waiting for incoming connection")
-            accept(id, nullptr, nullptr);
+            accept(id.value(), nullptr, nullptr);
             LOG1("received incoming connection")
         }
         else

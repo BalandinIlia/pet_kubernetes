@@ -24,7 +24,7 @@ int main()
         // sleep for an hour to keep the pos alive; This enables the operator to see the error:
         // logs are removed when the pod crashes
         sleep(3600);
-        throw std::exception("Failed to create main socket");
+        throw std::exception();
     }
 
     // client identificator
