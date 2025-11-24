@@ -9,22 +9,26 @@
 #include "../logger/logger.h"
 #include "make_socket.h"
 
-static SOCKET listenPort(TCPPort port)
+static std::optional<SOCKET> listenPort(TCPPort port)
 {
     const SOCKET idSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (idSocket == INVALID_SOCKET) 
+        return std::nullopt;
 
     sockaddr_in serverAddr{};
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
     serverAddr.sin_port = htons(port);
-    bind(idSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
+    if(bind(idSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr)) != 0)
+        return std::nullopt;
 
-    listen(idSocket, SOMAXCONN);
+    if(listen(idSocket, SOMAXCONN) != 0)
+        return std::nullopt;
 
     return idSocket;
 }
 
-SOCKET listenInfo()
+std::optional<SOCKET> listenInfo()
 {
     return listenPort(portInfo);
 }

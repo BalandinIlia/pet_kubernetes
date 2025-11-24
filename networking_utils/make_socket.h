@@ -1,8 +1,9 @@
 #pragma once
+#include "optional"
 #include "../parameters/controls.h"
 
-// returns socket listing to incoming work connections
-SOCKET listenInfo();
+// returns socket listening to incoming work connections
+std::optional<SOCKET> listenInfo();
 
 // class managing Kubernetes interaction: readiness, liveliness, startup
 class CInteractKuberentes
