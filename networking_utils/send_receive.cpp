@@ -48,5 +48,5 @@ std::optional<number> recvNum(SOCKET id)
     const bool bSuc = recvAll(id, p, 8);
     if(!bSuc)
         LOG2("Failed to receive a number", true)
-    return bSuc ? num : std::nullopt;
+    return bSuc ? std::optional<number>(num) : std::nullopt;
 }

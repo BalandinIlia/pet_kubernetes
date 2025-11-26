@@ -1,5 +1,6 @@
 #pragma once
 #include "vector"
+#include "optional"
 #include "../parameters/controls.h"
 
 std::optional<std::vector<number>> askInner(SOCKET id, number num);
