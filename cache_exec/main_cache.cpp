@@ -32,17 +32,24 @@ static void solveReq(SOCKET id)
 {
     setThreadName("Solve request thread");
 
-    const number reqNum = getReqInner(id);
-    LOG2("Request ", reqNum)
+    const std::optional<number> reqNum = getReqInner(id);
+    if(reqNum == std::nullopt)
+    {
+        LOG2("Failed to receive request value", true)
+        close(id);
+        return;
+    }
+
+    LOG2("Request ", reqNum.value())
     
     std::vector<number> ans;
 
     bool bFound = false;
     {
         std::shared_lock lk(mutCache);
-        if(cache.find(reqNum) != cache.end())
+        if(cache.find(reqNum.value()) != cache.end())
         {
-            ans = cache[reqNum];
+            ans = cache[reqNum.value()];
             bFound = true;
         }
     }
@@ -52,7 +59,7 @@ static void solveReq(SOCKET id)
     else
     {
         LOG1("Answer not found in cache; adressing calc service")
-        std::optional<std::vector<number>> res = askCalc(reqNum);
+        std::optional<std::vector<number>> res = askCalc(reqNum.value());
         if(res == std::nullopt)
             LOG2("Failed to receive an answer from calc service", true)
         else
@@ -66,7 +73,7 @@ static void solveReq(SOCKET id)
     if(!answerInner(id, ans))
         LOG2("Failed to send the answer", true)
 
-    closesocket(id);
+    close(id);
 }
 
 int main()
