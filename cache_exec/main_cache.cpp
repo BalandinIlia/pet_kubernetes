@@ -64,7 +64,7 @@ static void solveReq(SOCKET id)
         {
             LOG2("Failed to receive an answer from calc service", true)
             close(id);
-            return
+            return;
         }
         else
         {
