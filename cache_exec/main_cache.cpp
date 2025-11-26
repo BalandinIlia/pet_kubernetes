@@ -61,7 +61,11 @@ static void solveReq(SOCKET id)
         LOG1("Answer not found in cache; adressing calc service")
         std::optional<std::vector<number>> res = askCalc(reqNum.value());
         if(res == std::nullopt)
+        {
             LOG2("Failed to receive an answer from calc service", true)
+            close(id);
+            return
+        }
         else
         {
             ans = res.value();
