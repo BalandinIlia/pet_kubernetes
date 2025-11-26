@@ -67,7 +67,7 @@ static void solveReq(SOCKET id)
             ans = res.value();
             LOG2("Answer received:", ans)
             std::unique_lock lk(mutCache);
-            cache[reqNum] = ans;
+            cache[reqNum.value()] = ans;
         }
     }
     if(!answerInner(id, ans))

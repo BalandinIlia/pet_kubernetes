@@ -25,9 +25,14 @@ static std::vector<number> doCalc(number num)
 static void solveReq(SOCKET id)
 {
     setThreadName("Solve request thread");
-    const number reqNum = getReqInner(id);
-    LOG2("Received number ", reqNum)
-    std::vector<number> ans = doCalc(reqNum);
+    const std::optional<number> reqNum = getReqInner(id);
+    if(reqNum == std::nullopt)
+    {
+        LOG2("Failed to receive request number", true)
+        return;
+    }
+    LOG2("Received number ", reqNum.value())
+    std::vector<number> ans = doCalc(reqNum.value());
     ans.push_back(0);
     answerInner(id, ans);
 }
