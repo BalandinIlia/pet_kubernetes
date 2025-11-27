@@ -128,7 +128,7 @@ void serveClient(SOCK* pS, int idClient)
 	setThreadName("Client thread");
 	LOG1("Starting serving a client")
 
-	CThreadClient thr(std::move(&pS), idClient);
+	CThreadClient thr(std::move(*pS), idClient);
 	thr.run();
 	LOG1("Finished serving a client")
 }
