@@ -24,12 +24,12 @@ spec:
             - containerPort: 31000
           livenessProbe:
             tcpSocket:
-              port: 310001
-          initialDelaySeconds: 3
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 5
-    restartPolicy: Always
+              port: 31001
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+      restartPolicy: Always
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -57,12 +57,12 @@ spec:
             - containerPort: 31000
           livenessProbe:
             tcpSocket:
-              port: 310001
-          initialDelaySeconds: 3
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 5
-    restartPolicy: Always
+              port: 31001
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+      restartPolicy: Always
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -85,12 +85,12 @@ spec:
             - containerPort: 31000
           livenessProbe:
             tcpSocket:
-              port: 310001
-          initialDelaySeconds: 3
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 5
-    restartPolicy: Always
+              port: 31001
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+      restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
