@@ -27,7 +27,7 @@ public:
 private:
     SOCKET m_id;
 
-friend class CSOCKFactory
+friend class CSOCKFactory;
 };
 
 // returns socket listening to incoming work connections
