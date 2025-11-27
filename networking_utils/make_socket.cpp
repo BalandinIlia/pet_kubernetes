@@ -130,12 +130,13 @@ void CInteractKuberentes::informLive()
         }
         if(bCon)
         {
-            accept(id.value(), nullptr, nullptr);
+            id.value().acceptS();
             LOG1("received incoming connection")
         }
         else
             break;
     }
+    LOG1("finishing the function")
 }
 
 bool CInteractKuberentes::m_live = true;
