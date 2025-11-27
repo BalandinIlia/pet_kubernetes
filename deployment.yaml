@@ -22,6 +22,14 @@ spec:
               value: "31000"
           ports:
             - containerPort: 31000
+          livenessProbe:
+            tcpSocket:
+              port: 310001
+          initialDelaySeconds: 3
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 5
+    restartPolicy: Always
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -47,6 +55,14 @@ spec:
               value: "31000"
           ports:
             - containerPort: 31000
+          livenessProbe:
+            tcpSocket:
+              port: 310001
+          initialDelaySeconds: 3
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 5
+    restartPolicy: Always
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -67,19 +83,14 @@ spec:
           image: ilia56/calc_image:latest
           ports:
             - containerPort: 31000
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: cache-service
-spec:
-  selector:
-    type: cache-pod
-  ports:
-    - protocol: TCP
-      port: 31000
-      targetPort: 31000
-  type: ClusterIP
+          livenessProbe:
+            tcpSocket:
+              port: 310001
+          initialDelaySeconds: 3
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 5
+    restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
@@ -94,6 +105,19 @@ spec:
       targetPort: 31000
       nodePort: 31000
   type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache-service
+spec:
+  selector:
+    type: cache-pod
+  ports:
+    - protocol: TCP
+      port: 31000
+      targetPort: 31000
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
