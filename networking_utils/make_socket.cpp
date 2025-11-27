@@ -15,12 +15,12 @@ public:
     static SOCK make(SOCKET id)
     {
         SOCK ans;
-        and.m_id = id;
+        ans.m_id = id;
         return std::move(ans);
     }
-}
+};
 
-SOCK::SOCK(){}
+SOCK::SOCK(): m_id(-1) {}
 
 SOCK::SOCK(SOCK&& inst)
 {
@@ -28,13 +28,13 @@ SOCK::SOCK(SOCK&& inst)
     inst.m_id = -1;
 }
 
-SOCK::SOCK& operator=(SOCK&& inst)
+SOCK& SOCK::operator=(SOCK&& inst)
 {
     m_id = inst.m_id;
     inst.m_id = -1;
 }
 
-SOCK accept(const SOCK& s) const
+SOCK SOCK::accept(const SOCK& s) const
 {
     SOCKET acc = accept(s, nullptr, nullptr);
     SOCK ans;
@@ -79,6 +79,19 @@ static std::optional<SOCK> listenPort(TCPPort port)
 std::optional<SOCK> listenInfo()
 {
     return listenPort(portInfo);
+}
+
+SOCK sockClient()
+{
+    SOCKET idSocket = socket(AF_INET, SOCK_STREAM, 0);
+
+    sockaddr_in serverAddr{};
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    serverAddr.sin_port = htons(portInfo);
+    connect(idSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
+
+    return CSOCKFactory::make(idSocket);
 }
 
 void CInteractKuberentes::start()

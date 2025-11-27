@@ -15,7 +15,7 @@ class CRunner
 {
 public:
 	// Create a runner on given (already established) socket
-	CRunner(int idS);
+	CRunner(SOK&& sock);
 
 	// Main functions: it runs interaction with the server
 	void run();
@@ -33,8 +33,8 @@ private:
 	void logConnectionLost();
 
 private:
-	// socket id
-	const int m_idSocket;
+	// socket
+	const SOCK m_sock;
 
 	// A table with key, - request id and value, - request value
 	std::map<short, number> m_table;

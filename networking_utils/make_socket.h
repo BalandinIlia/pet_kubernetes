@@ -33,6 +33,8 @@ friend class CSOCKFactory;
 // returns socket listening to incoming work connections
 std::optional<SOCK> listenInfo();
 
+SOCK sockClient();
+
 // class managing Kubernetes interaction: readiness, liveliness, startup
 class CInteractKuberentes
 {

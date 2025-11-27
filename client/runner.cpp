@@ -3,7 +3,7 @@
 
 std::mutex CRunner::m_mutCons;
 
-CRunner::CRunner(int idS) : m_idSocket(idS), m_id(1) {}
+CRunner::CRunner(SOCK s) : m_sock(s), m_id(1) {}
 
 void CRunner::run()
 {
@@ -38,7 +38,7 @@ void CRunner::send()
         }
 
         std::array<char, 11> mes = MS::serializeRequest(num, m_id);
-        const bool bOk = sendAll(m_idSocket, mes.data(), 11);
+        const bool bOk = sendAll(m_sock, mes.data(), 11);
         if (!bOk)
         {
             LG lk(m_mutCons);
@@ -121,7 +121,7 @@ void CRunner::receive()
             const int sz = MS::bufSizeAnsYes(c);
             std::vector<char> buf;
             buf.resize(sz);
-            if (!recvAll(m_idSocket, buf.data(), sz))
+            if (!recvAll(m_sock, buf.data(), sz))
             {
                 logConnectionLost();
                 return;

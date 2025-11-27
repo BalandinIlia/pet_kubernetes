@@ -8,15 +8,8 @@ int main()
     // Tell the user they are running the client
     std::cout << "Client" << std::endl;
 
-    int idSocket = socket(AF_INET, SOCK_STREAM, 0);
-
-    sockaddr_in serverAddr{};
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    serverAddr.sin_port = htons(portInfo);
-    connect(idSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
-
-    CRunner r(idSocket);
+    SOCK s = sockClient()
+    CRunner r(s);
     r.run();
 
     return 0;
