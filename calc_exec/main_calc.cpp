@@ -58,7 +58,7 @@ int main()
 
     for (;;)
     {
-        SOCK conn = accept(idSocket.value(), nullptr, nullptr);
+        SOCK conn = idSocket.value().acceptS();
         LOG1(std::string("New request received"))
         std::thread t(solveReq, std::move(conn));
         t.detach();

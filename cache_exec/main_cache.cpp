@@ -71,7 +71,7 @@ static void solveReq(SOCK&& sockReq)
             cache[reqNum.value()] = ans;
         }
     }
-    if(!answerInner(id, ans))
+    if(!answerInner(sockReq, ans))
         LOG2("Failed to send the answer", true)
 }
 
