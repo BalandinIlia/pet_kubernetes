@@ -108,6 +108,7 @@ void CInteractKuberentes::terminateLive()
     LG lk(m_mutLive);
     m_live = false;
     LOG1("Kubernetes liveliness signal terminated")
+    sleep(1000000000);
 }
 
 void CInteractKuberentes::informLive()
