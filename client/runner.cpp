@@ -3,7 +3,7 @@
 
 std::mutex CRunner::m_mutCons;
 
-CRunner::CRunner(SOCK s) : m_sock(s), m_id(1) {}
+CRunner::CRunner(SOCK&& s) : m_sock(s), m_id(1) {}
 
 void CRunner::run()
 {

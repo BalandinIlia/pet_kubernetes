@@ -32,11 +32,13 @@ SOCK& SOCK::operator=(SOCK&& inst)
 {
     m_id = inst.m_id;
     inst.m_id = -1;
+    return *this;
 }
 
 SOCK SOCK::accept(const SOCK& s) const
 {
-    SOCKET acc = accept(s, nullptr, nullptr);
+    SOCKET t = s;
+    SOCKET acc = accept(t, nullptr, nullptr);
     SOCK ans;
     ans.m_id = acc;
     return std::move(ans);
@@ -138,7 +140,7 @@ void CInteractKuberentes::informLive()
 bool CInteractKuberentes::m_live = true;
 std::mutex CInteractKuberentes::m_mutLive;
 
-SOCKET connectToService()
+SOCK connectToService()
 {
     LOG1("connectToService function started")
     

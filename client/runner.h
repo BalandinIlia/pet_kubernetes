@@ -15,7 +15,7 @@ class CRunner
 {
 public:
 	// Create a runner on given (already established) socket
-	CRunner(SOK&& sock);
+	CRunner(SOCK&& sock);
 
 	// Main functions: it runs interaction with the server
 	void run();
