@@ -6,6 +6,7 @@
 #include "unistd.h"
 #include "cstring"
 #include "iostream"
+#include "../networking_utils/make_socket.h"
 
-// This fucntion serves a client with given id connected to given socket
-void serveClient(SOCK id, int idClient);
+// This function serves a client with given id connected to given socket
+void serveClient(SOCK&& id, int idClient);

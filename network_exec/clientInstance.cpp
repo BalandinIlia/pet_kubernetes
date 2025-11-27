@@ -122,12 +122,12 @@ private:
 	std::mutex m_mutSend;
 };
 
-void serveClient(SOCK idSocket, int idClient)
+void serveClient(SOCK&& sock, int idClient)
 {
 	setThreadName("Client thread");
 	LOG1("Starting serving a client")
 
-	CThreadClient thr(std::move(idSocket), idClient);
+	CThreadClient thr(std::move(sock), idClient);
 	thr.run();
 	LOG1("Finished serving a client")
 }

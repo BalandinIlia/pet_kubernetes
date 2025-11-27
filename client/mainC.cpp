@@ -8,7 +8,7 @@ int main()
     // Tell the user they are running the client
     std::cout << "Client" << std::endl;
 
-    SOCK s = sockClient()
+    SOCK s = sockClient();
     CRunner r(std::move(s));
     r.run();
 

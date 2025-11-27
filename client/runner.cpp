@@ -3,7 +3,7 @@
 
 std::mutex CRunner::m_mutCons;
 
-CRunner::CRunner(SOCK&& s) : m_sock(std::forward(s)), m_id(1) {}
+CRunner::CRunner(SOCK&& s) : m_sock(std::move(s)), m_id(1) {}
 
 void CRunner::run()
 {
@@ -113,7 +113,7 @@ void CRunner::receive()
         }
         case MS::ETypeMes::eAnsYes:
         {
-            if (!recvAll(m_idSocket, &c, 1))
+            if (!recvAll(m_sock, &c, 1))
             {
                 logConnectionLost();
                 return;
