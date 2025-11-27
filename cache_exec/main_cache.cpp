@@ -32,7 +32,7 @@ static void solveReq(SOCK&& sockReq)
 {
     setThreadName("Solve request thread");
 
-    const std::optional<number> reqNum = getReqInner(id);
+    const std::optional<number> reqNum = getReqInner(sockReq);
     if(reqNum == std::nullopt)
     {
         LOG2("Failed to receive request value", true)
@@ -96,7 +96,7 @@ int main()
 
     for (;;)
     {
-        SOCK sockReq = sockMain.acceptS();
+        SOCK sockReq = sockMain.value().acceptS();
         LOG1(std::string("New request received"));
         std::thread t(solveReq, std::move(sockReq));
         t.detach();

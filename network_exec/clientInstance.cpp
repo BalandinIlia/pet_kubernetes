@@ -61,7 +61,7 @@ class CThreadClient
 {
 public:
 	CThreadClient(SOCK&& sock, int idClient) : 
-		m_idSocket(std::move(sock)),
+		m_sock(std::move(sock)),
 		m_idClient(idClient)
 	{}
 
@@ -73,7 +73,7 @@ public:
 		{
 			// request code
 			char c;
-			if (!recvAll(m_idSocket, &c, 1))
+			if (!recvAll(m_sock, &c, 1))
 			{
 				// log connection error and stop execution
 				LOG2("Session closed due to network error", true)
@@ -87,7 +87,7 @@ public:
 			else
 			{
 				std::array<char, 10> buf;
-				if(!recvAll(m_idSocket, buf.data(), 10))
+				if(!recvAll(m_sock, buf.data(), 10))
 				{
 					LOG2("Client sent a broken message", true)
 					break;
