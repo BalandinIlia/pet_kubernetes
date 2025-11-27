@@ -35,9 +35,9 @@ SOCK& SOCK::operator=(SOCK&& inst)
     return *this;
 }
 
-SOCK SOCK::acceptS(const SOCK& s) const
+SOCK SOCK::acceptS() const
 {
-    SOCKET t = s;
+    SOCKET t = *this;
     SOCKET acc = accept(t, nullptr, nullptr);
     SOCK ans;
     ans.m_id = acc;
