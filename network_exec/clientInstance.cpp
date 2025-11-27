@@ -1,6 +1,7 @@
 #include "thread"
 #include "sstream"
 #include "mutex"
+#include "functional"
 #include "../logger/logger.h"
 #include "clientInstance.h"
 #include "../networking_library/messages.h"
@@ -101,7 +102,7 @@ public:
 
 				// Each request is processed in a separate thread. This allows processing several requests from the same
 				// client simultaneously.
-				std::thread t(solveCase, req.first, req.second, m_sock, &m_mutSend, m_idClient);
+				std::thread t(solveCase, req.first, req.second, std::cref<SOCK>(m_sock), &m_mutSend, m_idClient);
 				aThrChild.push_back(std::move(t));
 			}
 		}
