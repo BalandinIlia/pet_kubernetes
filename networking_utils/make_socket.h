@@ -20,7 +20,7 @@ public:
 
     SOCK accept(const SOCK& s) const;
 
-    SOCKET() const { return m_id; }
+    operator SOCKET() const { return m_id; }
 
     ~SOCK();
 
