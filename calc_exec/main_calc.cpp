@@ -44,8 +44,8 @@ int main()
 
     CInteractKuberentes::start();
 
-    const std::optional<SOCKET> idSocket = listenInfo();
-    if(idSocket.has_value())
+    const std::optional<SOCK> sockMain = listenInfo();
+    if(sockMain.has_value())
         LOG1("Main socket created")
     else
     {
@@ -58,7 +58,7 @@ int main()
 
     for (;;)
     {
-        SOCK conn = idSocket.value().acceptS();
+        SOCK conn = sockMain.value().acceptS();
         LOG1(std::string("New request received"))
         std::thread t(solveReq, std::move(conn));
         t.detach();
