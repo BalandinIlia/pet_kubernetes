@@ -17,6 +17,7 @@ public:
 
     SOCK(SOCK&& inst);
     SOCK& operator=(SOCK&& inst);
+    SOCK mv() { return SOCK(std::move(*this)); }
 
     SOCK acceptS() const;
 

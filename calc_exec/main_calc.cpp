@@ -57,7 +57,7 @@ int main()
     {
         SOCK conn = sockMain.value().acceptS();
         LOG1(std::string("New request received"))
-        std::thread t(solveReq, std::move(conn));
+        std::thread t(solveReq, conn.mv());
         t.detach();
     }
 
