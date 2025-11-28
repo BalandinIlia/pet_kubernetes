@@ -6,8 +6,7 @@
 #include "thread"
 #include "logger.h"
 
-// This class stores information associated with threads. For each thread there
-// is the following information:
+// This class stores information associated with threads. For each thread there is the following information:
 // 1. Thread name
 // 2. Thread number (to distinguish between threads with the same name)
 // Inside the class threads are identified by their system thread ids.
@@ -37,9 +36,9 @@ public:
     // get info about the current thread
     static std::pair<std::string, int> threadInfo()
     {
-        std::shared_lock l(m_mut);
-        
         const std::thread::id idThread = std::this_thread::get_id();
+
+        std::shared_lock l(m_mut);
         if(m_map.find(idThread) != m_map.end())
             return m_map[idThread];
         else
@@ -61,6 +60,7 @@ std::shared_mutex CThreadInfo::m_mut;
 // Mutex protecting the console (logs are outputted to the console)
 static std::mutex mutCons;
 
+// Inner function, which implements logging
 static void logImpl(const char* fn, const std::string& log, bool bError)
 {
     const std::pair<std::string, int> infoThr = CThreadInfo::threadInfo();
@@ -91,18 +91,14 @@ static void logImpl(const char* fn, const std::string& log, bool bError)
     mes << log;
     mes << "\n";
 
-    std::string out = mes.str();
+    const std::string out = mes.str();
     LG lk(mutCons);
     std::cout << out << std::endl;
 }
 
-// log a message
 void log(const char* fn, const std::string& log, bool bError)
 {
-    // mes = "message"
-    std::ostringstream mes;
-    mes << log;
-    logImpl(fn, mes.str(), bError);
+    logImpl(fn, log, bError);
 }
 
 void log(const char* fn, const std::string& s1, const std::string& s2, bool bError)
