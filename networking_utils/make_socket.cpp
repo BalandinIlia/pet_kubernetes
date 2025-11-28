@@ -119,7 +119,7 @@ void CInteractKuberentes::terminateLive()
 
 void CInteractKuberentes::informLive()
 {
-    setThreadName("kubernetes liveliness");
+    CThreadName tn("kubernetes liveliness");
     
     // This is the socket kubernetes will use for liveness probe
     const std::optional<SOCK> id = listenPort(portLive);
