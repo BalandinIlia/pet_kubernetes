@@ -39,9 +39,7 @@ public:
 
         // register this thread with the next free number
         const std::thread::id idThread = std::this_thread::get_id();
-        // thread number
-        const int thrNum = m_nh.getNumName(name);
-        m_map[idThread] = std::pair<std::string, int>(name, thrNum);
+        m_map[idThread] = std::pair<std::string, int>(name, m_nh.getNumName(name));
     }
 
     static void deregisterThisThread()
