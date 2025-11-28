@@ -50,6 +50,8 @@ SOCK::~SOCK()
         close(m_id);
 }
 
+// This function creates a socket listening to all connections coming to specified TCP port.
+// Returns nullopt if socket creation failed.
 static std::optional<SOCK> listenPort(TCPPort port)
 {
     const SOCKET idSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -98,6 +100,7 @@ SOCK sockClient()
 
 void CInteractKuberentes::start()
 {
+    // liveness function is executed in a separate thread
     std::thread t(informLive);
     t.detach();
     LOG1("Kubernetes interaction started")
@@ -108,13 +111,17 @@ void CInteractKuberentes::terminateLive()
     LG lk(m_mutLive);
     m_live = false;
     LOG1("Kubernetes liveliness signal terminated")
-    sleep(1000000000);
+    // this function hangs forever to block the calling thread
+    // Motivation: the calling thread faced a fatal error and informed kubernetes that the
+    // entire container is not alive anymore. So, we should prevent it from further actions.
+    for(;;){}
 }
 
 void CInteractKuberentes::informLive()
 {
     setThreadName("kubernetes liveliness");
     
+    // This is the socket kubernetes will use for liveness probe
     const std::optional<SOCK> id = listenPort(portLive);
     if(id.has_value())
         LOG1("listening socket created")
@@ -123,6 +130,8 @@ void CInteractKuberentes::informLive()
     
     for(;;)
     {
+        // bCon = "bool continue": should we continue executing the cycle?
+        // We have to copy m_live into bCon since m_live can be accessed from different threads
         bool bCon = false;
         {
             LG lk(m_mutLive);
