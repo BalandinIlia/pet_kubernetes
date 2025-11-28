@@ -19,7 +19,7 @@ public:
 
 private:
     // thread name -> last number used for the thread
-    static std::map<std::string, int> m_mapNameNum;
+    std::map<std::string, int> m_mapNameNum;
 
     std::mutex m_mut;
 };
