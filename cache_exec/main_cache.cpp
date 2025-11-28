@@ -19,7 +19,7 @@ static std::optional<std::vector<number>> askCalc(number num)
     if(sockServ == std::nullopt)
 	{
 		LOG2("Failed to connect to service", true)
-		return;
+		return std::nullopt;
 	}
 	else
 	{
