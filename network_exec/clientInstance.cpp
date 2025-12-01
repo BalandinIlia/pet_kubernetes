@@ -3,11 +3,11 @@
 #include "mutex"
 #include "functional"
 #include "../logger/logger.h"
-#include "clientInstance.h"
 #include "../networking_library/messages.h"
 #include "../networking_library/inner_interaction.h"
 #include "../networking_utils/send_receive.h"
 #include "../networking_utils/make_socket.h"
+#include "clientInstance.h"
 
 /// <summary>
 /// This function solves a request from a particular client: it calculates the answer and sends it over TCP.
@@ -33,7 +33,7 @@ void solveCase(short id, number num, const SOCK& idSocket, std::mutex* mutSocket
 		LOG2("Connected to service. Service socket id:", sockService.value())
 	}
 
-	std::optional<std::vector<number>> aNum = askInner(sockService.value(), num);
+	std::optional<std::vector<number>> aNum = IC::ask(sockService.value(), num);
 	if(aNum == std::nullopt)
 	{
 		LOG2("Failed to get an answer from cache service", true)

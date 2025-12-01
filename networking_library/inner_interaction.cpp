@@ -1,9 +1,3 @@
-#include "iostream"
-#include "string"
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <unistd.h>
 #include "inner_interaction.h"
 #include "../networking_utils/send_receive.h"
 #include "../logger/logger.h"

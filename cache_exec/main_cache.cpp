@@ -1,12 +1,8 @@
 #include "thread"
 #include "mutex"
 #include "shared_mutex"
-#include "string"
-#include "sstream"
 #include "map"
-#include "../networking_library/messages.h"
 #include "../networking_library/inner_interaction.h"
-#include "../networking_utils/send_receive.h"
 #include "../networking_utils/make_socket.h"
 #include "../logger/logger.h"
 
@@ -26,7 +22,7 @@ static std::optional<std::vector<number>> askCalc(number num)
 		LOG2("Connected to service. Service socket id:", sockServ.value())
 	}
 
-	const std::optional<std::vector<number>> aNum = askInner(sockServ.value(), num);
+	const std::optional<std::vector<number>> aNum = IC::ask(sockServ.value(), num);
     
     if(aNum != std::nullopt)
         LOG2("Received an answer from calc service:", aNum.value())
@@ -40,7 +36,7 @@ static void solveReq(SOCK&& sockReq)
 {
     CThreadName tn("Solve request thread");
 
-    const std::optional<number> reqNum = getReqInner(sockReq);
+    const std::optional<number> reqNum = IC::getReq(sockReq);
     if(reqNum == std::nullopt)
     {
         LOG2("Failed to receive request value", true)
@@ -79,7 +75,7 @@ static void solveReq(SOCK&& sockReq)
             cache[reqNum.value()] = ans;
         }
     }
-    if(!answerInner(sockReq, ans))
+    if(!IC::answer(sockReq, ans))
         LOG2("Failed to send the answer", true)
 }
 

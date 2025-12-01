@@ -1,7 +1,5 @@
 #include "thread"
-#include "../networking_library/messages.h"
 #include "../networking_library/inner_interaction.h"
-#include "../networking_utils/send_receive.h"
 #include "../networking_utils/make_socket.h"
 #include "../logger/logger.h"
 
@@ -25,7 +23,7 @@ static std::vector<number> doCalc(number num)
 static void solveReq(SOCK&& id)
 {
     CThreadName tn("Solve request thread");
-    const std::optional<number> reqNum = getReqInner(id);
+    const std::optional<number> reqNum = IC::getReq(id);
     if(reqNum == std::nullopt)
     {
         LOG2("Failed to receive request number", true)
@@ -34,7 +32,7 @@ static void solveReq(SOCK&& id)
     LOG2("Received number ", reqNum.value())
     std::vector<number> ans = doCalc(reqNum.value());
     ans.push_back(0);
-    answerInner(id, ans);
+    IC::answer(id, ans);
 }
 
 int main()
