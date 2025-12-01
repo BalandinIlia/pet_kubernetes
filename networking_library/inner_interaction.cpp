@@ -8,43 +8,46 @@
 #include "../networking_utils/send_receive.h"
 #include "../logger/logger.h"
 
-std::optional<std::vector<number>> askInner(const SOCK& id, number num)
+namespace IC
 {
-    LOG2("Performing ask inner for number", num)
-    
-    if(!sendNum(id, num))
+    std::optional<std::vector<number>> askInner(const SOCK& id, number num)
     {
-        LOG2("Failed to send a number", true)
-        return std::nullopt;
-    }
-    
-    std::vector<number> ans;
-    for(;;)
-    {
-        const std::optional<number> num = recvNum(id);
-        if(num == std::nullopt)
+        LOG2("Inner communication: asking service for number", num)
+        
+        if(!sendNum(id, num))
         {
-            LOG2("Failed to receive a number", true)
+            LOG2("Failed to send a number", true)
             return std::nullopt;
         }
-        else if(num.value() == 0)
-            break;
-        else
-            ans.push_back(num.value());
+        
+        std::vector<number> ans;
+        for(;;)
+        {
+            const std::optional<number> num = recvNum(id);
+            if(num == std::nullopt)
+            {
+                LOG2("Failed to receive a number", true)
+                return std::nullopt;
+            }
+            else if(num.value() == 0)
+                break;
+            else
+                ans.push_back(num.value());
+        }
+        return ans;
     }
-    return ans;
-}
 
-bool answerInner(const SOCK& id, const std::vector<number>& ans)
-{
-    bool bOk = true;
-    for(const number& n: ans)
-        bOk &= sendNum(id, n);
-    bOk &= sendNum(id, 0);
-    return bOk;
-}
+    bool answerInner(const SOCK& id, const std::vector<number>& ans)
+    {
+        bool bOk = true;
+        for(const number& n: ans)
+            bOk &= sendNum(id, n);
+        bOk &= sendNum(id, 0);
+        return bOk;
+    }
 
-std::optional<number> getReqInner(const SOCK& id)
-{
-    return recvNum(id);
+    std::optional<number> getReqInner(const SOCK& id)
+    {
+        return recvNum(id);
+    }
 }
