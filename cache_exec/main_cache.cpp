@@ -6,9 +6,13 @@
 #include "../networking_utils/make_socket.h"
 #include "../logger/logger.h"
 
+// cache with calculated answers
 static std::map<number, std::vector<number>> cache;
+
+// mutex protecting the cache
 static std::shared_mutex mutCache;
 
+// This function asks calc service about number num
 static std::optional<std::vector<number>> askCalc(number num)
 {
 	const std::optional<SOCK> sockServ = connectToService();
@@ -17,13 +21,8 @@ static std::optional<std::vector<number>> askCalc(number num)
 		LOG2("Failed to connect to service", true)
 		return std::nullopt;
 	}
-	else
-	{
-		LOG2("Connected to service. Service socket id:", sockServ.value())
-	}
 
 	const std::optional<std::vector<number>> aNum = IC::ask(sockServ.value(), num);
-    
     if(aNum != std::nullopt)
         LOG2("Received an answer from calc service:", aNum.value())
     else
@@ -32,6 +31,8 @@ static std::optional<std::vector<number>> askCalc(number num)
     return aNum;
 }
 
+// This function serves an individual request. The function takes the socket corresponding to the
+// request.
 static void solveReq(SOCK&& sockReq)
 {
     CThreadName tn("Solve request thread");
@@ -42,7 +43,7 @@ static void solveReq(SOCK&& sockReq)
         LOG2("Failed to receive request value", true)
         return;
     }
-    LOG2("Request ", reqNum.value())
+    LOG2("Received request", reqNum.value())
     
     std::vector<number> ans;
 
@@ -60,8 +61,8 @@ static void solveReq(SOCK&& sockReq)
         LOG2("Answer found in cache:", ans)
     else
     {
-        LOG1("Answer not found in cache; adressing calc service")
-        std::optional<std::vector<number>> res = askCalc(reqNum.value());
+        LOG1("Answer not found in cache; asking calc service")
+        const std::optional<std::vector<number>> res = askCalc(reqNum.value());
         if(res == std::nullopt)
         {
             LOG2("Failed to receive an answer from calc service", true)
@@ -75,6 +76,7 @@ static void solveReq(SOCK&& sockReq)
             cache[reqNum.value()] = ans;
         }
     }
+
     if(!IC::answer(sockReq, ans))
         LOG2("Failed to send the answer", true)
 }

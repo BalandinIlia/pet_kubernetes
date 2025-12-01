@@ -3,10 +3,12 @@
 #include "../networking_utils/make_socket.h"
 #include "../logger/logger.h"
 
+// This function does the actual work: finds non-trivial divisors of number num
 static std::vector<number> doCalc(number num)
 {
-    LOG2("Calcing for ", num);
+    LOG2("Calcing for", num);
 
+    // magical crash number
     if(num == 42)
         throw std::exception();
 
@@ -16,23 +18,25 @@ static std::vector<number> doCalc(number num)
         if(num % d == 0)
             ans.push_back(d);
     }
-    LOG2("Quantity of found divisors ", static_cast<number>(ans.size()))
+    LOG2("Found divisors", ans)
     return ans;
 }
 
-static void solveReq(SOCK&& id)
+// This function serves an individual request. The function takes the socket corresponding to the
+// request.
+static void solveReq(SOCK&& sock)
 {
     CThreadName tn("Solve request thread");
-    const std::optional<number> reqNum = IC::getReq(id);
+
+    const std::optional<number> reqNum = IC::getReq(sock);
     if(reqNum == std::nullopt)
     {
         LOG2("Failed to receive request number", true)
         return;
     }
     LOG2("Received number ", reqNum.value())
-    std::vector<number> ans = doCalc(reqNum.value());
-    ans.push_back(0);
-    IC::answer(id, ans);
+    const std::vector<number> ans = doCalc(reqNum.value());
+    IC::answer(sock, ans);
 }
 
 int main()
