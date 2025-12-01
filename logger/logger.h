@@ -39,7 +39,16 @@ void log(const char* fn, const std::string& s, const std::vector<number>& v, boo
 #define LOG2(a1, a2) {log(__func__, (a1), (a2));}
 #define LOG3(a1, a2, a3) {log(__func__, (a1), (a2), (a3));}
 
-// Sets name for the current thread
+// This class registers current thread in the logger on creation. When an instance of this 
+// class is created, it registers current thread with the given name. When the instance is
+// destructed, it deregisters the thread.
+//
+// The instanse of the class should be created in the beginning of the thread. Once created,
+// the instance can't be copied or moved.
+//
+// The purpose of having a class for thread name, not a function "setThreadName" is to ensure
+// that thread is deregistered after it finishes. Class destructor is always called, so the
+// thread is always deregistered.
 class CThreadName
 {
 public:
