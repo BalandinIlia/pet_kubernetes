@@ -6,15 +6,21 @@
 #include "thread"
 #include "logger.h"
 
-class CNameHost
+// This class gives numbers to names. One and the same name is never given the same number.
+// Each call with the same name generates a unique number. One and the same name is given the
+// following numbers (chronologically): 1, 2, 3, ...
+//
+// This class is used to give numbers to threads and to ensure that there are no two threads 
+// with the same name and the same number.
+class CNameNum
 {
 public:
     int getNumName(const std::string& name)
     {
         LG lk(m_mut);
-        const int thrNum = (m_mapNameNum.find(name) == m_mapNameNum.end()) ? 1 : m_mapNameNum[name]+1;
-        m_mapNameNum[name] = thrNum;
-        return thrNum;
+        const int num = (m_mapNameNum.find(name) == m_mapNameNum.end()) ? 1 : m_mapNameNum[name]+1;
+        m_mapNameNum[name] = num;
+        return num;
     }
 
 private:
@@ -39,7 +45,7 @@ public:
 
         // register this thread with the next free number
         const std::thread::id idThread = std::this_thread::get_id();
-        m_map[idThread] = std::pair<std::string, int>(name, m_nh.getNumName(name));
+        m_map[idThread] = std::pair<std::string, int>(name, m_nn.getNumName(name));
     }
 
     static void deregisterThisThread()
@@ -66,14 +72,14 @@ private:
     // thread system id -> (thread name, thread number)
     static std::map<std::thread::id, std::pair<std::string, int>> m_map;
 
-    // mutex protecting the maps
+    // mutex protecting the map
     static std::shared_mutex m_mut;
 
-    static CNameHost m_nh;
+    static CNameNum m_nn;
 };
 
 std::map<std::thread::id, std::pair<std::string, int>> CThreadInfo::m_map;
-CNameHost CThreadInfo::m_nh;
+CNameNum CThreadInfo::m_nn;
 std::shared_mutex CThreadInfo::m_mut;
 
 // Mutex protecting the console (logs are outputted to the console)
