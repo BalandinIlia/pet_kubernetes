@@ -1,0 +1,8 @@
+sudo microk8s.kubectl get pods
+sudo microk8s.kubectl apply -f deployment.yaml
+sudo microk8s.kubectl delete all --all
+sudo microk8s.kubectl logs <pod name>
+sudo microk8s.kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+sudo microk8s.kubectl top pod --containers
+chmod +x client
+./client
