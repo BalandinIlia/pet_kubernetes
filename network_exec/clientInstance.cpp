@@ -149,5 +149,5 @@ void serveClient(SOCK&& sock, int idClient)
 
 	CThreadClient thr(std::move(sock), idClient);
 	thr.run();
-	LOG1("Finished serving a client with id", idClient)
+	LOG2("Finished serving a client with id", idClient)
 }
