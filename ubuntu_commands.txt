@@ -1,0 +1,21 @@
+SERVER
+1. Install microkubernetes:
+      sudo snap install microk8s --classic
+2. See all pods and their names:
+      sudo microk8s.kubectl get pods
+3. Run deployment from the folder where deployment file is located:
+      sudo microk8s.kubectl apply -f deployment.yaml
+4. Clear all kubernetes pods, deployments, services:
+      sudo microk8s.kubectl delete all --all
+5. See pod logs:
+      sudo microk8s.kubectl logs <pod name>
+6. Add metrics to see pod workload:
+      sudo microk8s.kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+7. Visualize workload for all pods:
+      sudo microk8s.kubectl top pod --containers
+
+CLIENT
+1. Make the client executable from the folder where the client is located:
+      chmod +x client
+2. Run the client from the folder where the client is located:
+      ./client

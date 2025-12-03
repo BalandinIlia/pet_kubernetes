@@ -32,6 +32,12 @@ jobs:
         name: deployment.yaml
         path: deployment.yaml
 
+    - name: Upload ubuntu commands
+      uses: actions/upload-artifact@v4
+      with:
+        name: ubuntu_commands.txt
+        path: ubuntu_commands.txt
+
     - name: Build docker
       run: |
         cd docker
