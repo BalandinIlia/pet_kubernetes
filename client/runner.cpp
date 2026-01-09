@@ -105,7 +105,7 @@ void CRunner::receive()
                 else
                 {
                     const int tPrint = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
-                    std::cout << std::endl << "Decomposition of " << n << " is impossible. "
+                    std::cout << std::endl << "Number " << n << " has no non-trivial divisors. "
                         << "The request took " << tPrint << " ms";
                 }
             }
@@ -151,7 +151,7 @@ void CRunner::receive()
                 else
                 {
                     const int tPrint = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
-                    std::cout << std::endl << n << " is decomposable:";
+                    std::cout << std::endl << "Number " << n << " has the following non-trivial divisors: ";
                     for (const number& comp : aComp)
                         std::cout << comp << " ";
                     std::cout << "The request took " << tPrint << " ms";
