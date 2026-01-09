@@ -112,7 +112,7 @@ void CRunner::receive()
                 {
                     const int tPrint = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
                     std::cout << std::endl << "Number " << n << " has no non-trivial divisors. "
-                        << "The request took " << tPrint << " ms";
+                        << "The request took " << tPrint << " ms" << std::flush;
                 }
             }
             break;
@@ -160,7 +160,7 @@ void CRunner::receive()
                     std::cout << std::endl << "Number " << n << " has the following non-trivial divisors: ";
                     for (const number& comp : aComp)
                         std::cout << comp << " ";
-                    std::cout << "The request took " << tPrint << " ms";
+                    std::cout << "The request took " << tPrint << " ms" << std::flush;
                 }
             }
             break;
