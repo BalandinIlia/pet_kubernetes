@@ -1,5 +1,6 @@
+#include <sstream>
 #include "runner.h"
-#include "sstream"
+#include "utils_input.h"
 
 std::mutex CRunner::m_mutCons;
 
