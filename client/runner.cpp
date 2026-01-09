@@ -1,4 +1,5 @@
 #include <sstream>
+#include <unistd.h>
 #include "runner.h"
 #include "utils_input.h"
 
@@ -21,7 +22,7 @@ void CRunner::send()
         // 'a' is a signal to receive a number from the user
         char c = 0;
         std::cout << "q";
-        while(!ready()){}
+        while(!ready()){ sleep(1); }
         std::cout << "w";
         while (c != 'a')
             c = std::cin.get();
