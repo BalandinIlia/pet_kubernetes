@@ -20,9 +20,12 @@ void CRunner::send()
     {
         // 'a' is a signal to receive a number from the user
         char c = 0;
+        std::cout << "q";
         while(!ready()){}
+        std::cout << "w";
         while (c != 'a')
             c = std::cin.get();
+        std::cout << "e";
 
         number num = 0;
         {
