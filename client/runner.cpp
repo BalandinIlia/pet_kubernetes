@@ -19,27 +19,13 @@ void CRunner::send()
     {
         waitForUser();
 
-        number num = 0;
-        {
-            // Take a number from the user (from console). So here I lock the console mutex to own the console.
-            LG lk(m_mutCons);
-            while (num <= 0)
-            {
-                std::cout << "Input a number: ";
-                std::cin >> num;
-                if (num > 0)
-                    std::cout << std::endl << "Sent request " << num << ". Request id " << m_id << ".";
-                else
-                    std::cout << std::endl << "Number must be positive" << std::endl;
-            }
-        }
+        const number num = readNumber();
 
         std::array<char, 11> mes = MS::serializeRequest(num, m_id);
         const bool bOk = sendAll(m_sock, mes.data(), 11);
         if (!bOk)
         {
-            LG lk(m_mutCons);
-            std::cout << std::endl << "Connection with server lost";
+            log("Connection with server lost");
             return;
         }
 

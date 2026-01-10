@@ -57,8 +57,8 @@ private:
     // each should have its own table mutex. So I don't make this mutex static.
     std::mutex m_mutTable;
 
-    // This is a mutex guarding the console. It prevents receive thread from outputting to console while receive thread
-    // is taking data from the user.
+    // This is a mutex guarding the console. It prevents the receive thread from outputting
+    // to console while the send thread is taking data from the user.
     // Now there is only one CRunner instance, so there is no difference if this mutex is static or not.
     // However, if in the future, I decide to create several different runners, all of them will have shared console window.
     // So, I make this mutex static, so it is common for all runners. So, console would be owned by only one thread of only
