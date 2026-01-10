@@ -1,7 +1,5 @@
 #include <sstream>
-#include <unistd.h>
 #include "runner.h"
-#include "utils_input.h"
 
 std::mutex CRunner::m_mutCons;
 
@@ -19,14 +17,7 @@ void CRunner::send()
 {
     for (;;)
     {
-        // 'a' is a signal to receive a number from the user
-        char c = 0;
-        std::cout << "q";
-        while(!ready()){ sleep(1); }
-        std::cout << "w";
-        while (c != 'a')
-            c = std::cin.get();
-        std::cout << "e";
+        waitForUser();
 
         number num = 0;
         {
@@ -70,7 +61,7 @@ void CRunner::receive()
         char c;
         if (!recvAll(m_sock, &c, 1))
         {
-            logConnectionLost();
+            log("Connection with server lost");;
             return;
         }
         const MS::ETypeMes t = MS::decodeType(c);
@@ -81,7 +72,7 @@ void CRunner::receive()
             std::array<char, 2> buf;
             if(!recvAll(m_sock, buf.data(), 2))
             {
-                logConnectionLost();
+                log("Connection with server lost");;
                 return;
             }
             const short id = MS::deserializeAnsNo(buf);
@@ -103,17 +94,15 @@ void CRunner::receive()
                     sError << "Error: inner table does not contain request id " << id << " received from the server.";
             }
 
+            if (!sError.str().empty())
+                log(sError.str());
+            else
             {
-                // Show a number from the user (to console). So here I lock the console mutex to own the console.
-                LG lk(m_mutCons);
-                if (!sError.str().empty())
-                    std::cout << std::endl << sError.str();
-                else
-                {
-                    const int tPrint = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
-                    std::cout << std::endl << "Number " << n << " has no non-trivial divisors. "
-                        << "The request took " << tPrint << " ms" << std::flush;
-                }
+                const int tPrint = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
+                std::ostringstream mes;
+                mes << "Number " << n << " has no non-trivial divisors. "
+                    << "The request took " << tPrint << " ms";
+                log(mes.str());
             }
             break;
         }
@@ -121,7 +110,7 @@ void CRunner::receive()
         {
             if (!recvAll(m_sock, &c, 1))
             {
-                logConnectionLost();
+                log("Connection with server lost");
                 return;
             }
             const int sz = MS::bufSizeAnsYes(c);
@@ -129,7 +118,7 @@ void CRunner::receive()
             buf.resize(sz);
             if (!recvAll(m_sock, buf.data(), sz))
             {
-                logConnectionLost();
+                log("Connection with server lost");
                 return;
             }
             const std::pair<short, std::vector<number>> ans = MS::deserializeAnsYes(buf);
@@ -150,33 +139,66 @@ void CRunner::receive()
                     sError << "Error: inner table does not contain request id " << id << " received from the server.";
             }
 
+            if (!sError.str().empty())
+                log(sError.str());
+            else
             {
-                LG lk(m_mutCons);
-                if (!sError.str().empty())
-                    std::cout << std::endl << sError.str();
-                else
-                {
-                    const int tPrint = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
-                    std::cout << std::endl << "Number " << n << " has the following non-trivial divisors: ";
-                    for (const number& comp : aComp)
-                        std::cout << comp << " ";
-                    std::cout << "The request took " << tPrint << " ms" << std::flush;
-                }
+                const int tPrint = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
+                std::ostringstream mes;
+                mes << "Number " << n << " has the following non-trivial divisors: ";
+                for (const number& comp : aComp)
+                    mes << comp << " ";
+                mes << "The request took " << tPrint << " ms";
+                log (mes.str());
             }
             break;
         }
         default:
         {
-            std::lock_guard<std::mutex> lk(m_mutCons);
-            std::cout << std::endl << "Incorrect code from server";
+            log("Incorrect code from server");
             break;
         }
         }
     }
 }
 
-void CRunner::logConnectionLost()
+void CRunner::waitForUser()
+{
+    // 'a' is a signal to receive a number from the user
+    char c = 0;
+    while (c != 'a')
+        c = std::cin.get();
+}
+
+number CRunner::readNumber()
+{
+    number num = 0;
+
+    // Take a number from the user (from console). 
+    // So here I lock the console mutex to own the console.
+    LG lk(m_mutCons);
+    while (num <= 0)
+    {
+        std::cout << "Input a number: ";
+        if(!(std::cin >> num))
+        {
+            num = 0;
+            std::cin.get();
+            std::cout << std::endl << "Must be a number" 
+                      << std::endl << "Input a number: ";
+        }
+        else if (num <= 0)
+        {
+            num = 0;
+            std::cout << std::endl << "Must be a positive number" 
+                      << std::endl << "Input a number: ";
+        }
+    }
+    return num;
+}
+
+void CRunner::log(const std::string s)
 {
     LG lk(m_mutCons);
-    std::cout << std::endl << "Connection with server lost";
+    std::cout << s << std::endl;
 }
