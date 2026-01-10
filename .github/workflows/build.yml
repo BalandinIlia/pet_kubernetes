@@ -3,12 +3,12 @@ name: MSBuild
 on:
   push:
     branches: [ "main" ]
-    
+
 jobs:
   build: 
     permissions:
       contents: read
-      
+
     runs-on: ubuntu-latest
     timeout-minutes: 2
 
@@ -57,7 +57,7 @@ jobs:
           docker tag network:image ilia56/network_image:latest
           docker tag cache:image   ilia56/cache_image:latest
           docker tag calc:image    ilia56/calc_image:latest
-  
+
     - name: Push images to docker hub Container Registry
       run: | 
           docker push ilia56/network_image:latest
