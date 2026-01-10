@@ -169,15 +169,14 @@ number CRunner::readNumber()
         if(!(std::cin >> num))
         {
             num = 0;
+            std::cin.clear();
             std::cin.get();
-            std::cout << std::endl << "Must be a number" 
-                      << std::endl << "Input a number: ";
+            std::cout << "Must be a number" << std::endl;
         }
         else if (num <= 0)
         {
             num = 0;
-            std::cout << std::endl << "Must be a positive number" 
-                      << std::endl << "Input a number: ";
+            std::cout << "Must be a positive number" << std::endl;
         }
     }
     return num;
