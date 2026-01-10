@@ -1,7 +1,7 @@
-#include "thread"
-#include "string"
-#include "sstream"
-#include "functional"
+#include <thread>
+#include <string>
+#include <sstream>
+#include <functional>
 #include "../networking_library/messages.h"
 #include "../networking_utils/send_receive.h"
 #include "../networking_utils/make_socket.h"

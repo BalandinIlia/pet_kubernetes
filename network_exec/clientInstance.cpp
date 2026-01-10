@@ -1,7 +1,7 @@
-#include "thread"
-#include "sstream"
-#include "mutex"
-#include "functional"
+#include <thread>
+#include <sstream>
+#include <mutex>
+#include <functional>
 #include "../logger/logger.h"
 #include "../networking_library/messages.h"
 #include "../networking_library/inner_interaction.h"

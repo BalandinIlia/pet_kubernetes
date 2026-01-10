@@ -1,4 +1,4 @@
-#include "netinet/in.h"
+#include <netinet/in.h>
 #include "controls.h"
 
 static_assert(sizeof(IPAddr) == 4, "wrong type for IP address");
