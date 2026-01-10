@@ -28,6 +28,12 @@ void CRunner::send()
             log("Connection with server lost");
             return;
         }
+        else
+        {
+            std::ostringstream mes;
+            mes << "Sent request " << num << ". Request id " << m_id << ".";
+            log(mes.str());
+        }
 
         {
             // Modify the table. So here I lock the table mutex to own the table.
