@@ -42,7 +42,7 @@ static void solveReq(SOCK&& sock)
 int main()
 {
     CThreadName tn("Main thread");
-    LOG1(std::string("Starting calc container"))
+    LOG1("Starting calc container")
 
     CInteractKuberentes::start();
 
@@ -58,7 +58,7 @@ int main()
     for (;;)
     {
         SOCK conn = sockMain.value().acceptS();
-        LOG1(std::string("New request received"))
+        LOG1("New request received")
         std::thread t(solveReq, conn.mv());
         t.detach();
     }

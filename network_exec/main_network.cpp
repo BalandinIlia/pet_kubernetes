@@ -11,7 +11,7 @@
 int main()
 {
     CThreadName tn("Main thread");
-    LOG1(std::string("Starting networking container"))
+    LOG1("Starting networking container")
 
     CInteractKuberentes::start();
 
@@ -32,7 +32,7 @@ int main()
     for (;;)
     {
         SOCK conn = idSocket.value().acceptS();
-        LOG1(std::string("New client accepted"));
+        LOG1("New client accepted");
         std::thread t(serveClient, conn.mv(), idClient);
         idClient++;
         t.detach();
