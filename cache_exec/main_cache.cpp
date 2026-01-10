@@ -15,14 +15,14 @@ static std::shared_mutex mutCache;
 // This function asks calc service about number num
 static std::optional<std::vector<number>> askCalc(number num)
 {
-	const std::optional<SOCK> sockServ = connectToService();
+    const std::optional<SOCK> sockServ = connectToService();
     if(sockServ == std::nullopt)
-	{
-		LOG2("Failed to connect to service", true)
-		return std::nullopt;
-	}
+    {
+        LOG2("Failed to connect to service", true)
+        return std::nullopt;
+    }
 
-	const std::optional<std::vector<number>> aNum = IC::ask(sockServ.value(), num);
+    const std::optional<std::vector<number>> aNum = IC::ask(sockServ.value(), num);
     if(aNum != std::nullopt)
         LOG2("Received an answer from calc service:", aNum.value())
     else
