@@ -30,8 +30,12 @@ private:
     static void sendAdapter(CRunner* r) { r->send(); }
     static void recvAdapter(CRunner* r) { r->receive(); }
 
+    // This function blocks the executing thread until the user inputs "a" meaning they want
+    // to input a number
     void waitForUser();
+    // Read a number from console
     number readNumber();
+    // log a message to console
     void log(const std::string s);
 
 private:
