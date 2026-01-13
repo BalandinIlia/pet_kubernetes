@@ -4,8 +4,7 @@
 #include "netinet/in.h"
 #include "arpa/inet.h"
 #include "unistd.h"
-#include "../networking_library/messages.h"
-#include "../networking_utils/send_receive.h"
+#include "../networking_utils/make_socket.h"
 #include "runner.h"
 
 class CSOCKFactory
