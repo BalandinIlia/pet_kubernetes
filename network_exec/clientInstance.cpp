@@ -58,6 +58,8 @@ void solveCase(short idReq, number num, const SOCK& sock, std::mutex* mutSocket,
     }
     else
     {
+        while(aNum.value().size()>255)
+            aNum.value().pop();
         std::vector<char> buf = MS::serializeAnsYes(aNum.value(), idReq);
         LG lk(*mutSocket);
         bSent = sendAll(sock, buf.data(), static_cast<int>(buf.size()));
