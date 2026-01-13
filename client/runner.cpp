@@ -53,7 +53,7 @@ void CRunner::receive()
         char c;
         if (!recvAll(m_sock, &c, 1))
         {
-            log("Connection with server lost");;
+            log("Connection with server lost");
             return;
         }
         const MS::ETypeMes t = MS::decodeType(c);
