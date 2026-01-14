@@ -100,7 +100,7 @@ int main()
     for (;;)
     {
         SOCK sockReq = sockMain.value().acceptS();
-        LOG1(std::string("New request received"));
+        LOG1("New request received");
         std::thread t(solveReq, sockReq.mv());
         t.detach();
     }
